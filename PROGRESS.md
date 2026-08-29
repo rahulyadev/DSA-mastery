@@ -35,7 +35,7 @@ Generated files and accepted submissions do not prove learning. Track artifacts,
 
 | Unit ID | Title | Priority | Artifact state | Learning state | Last evidence | Next review | Weakest point | Evidence link |
 |---|---|---|---|---|---|---|---|---|
-| [DSA-FND-010](CURRICULUM.md#dsa-fnd-010) | Computational problem solving and constraint translation | Core | Absent | Not started | — | — | — | — |
+| [DSA-FND-010](CURRICULUM.md#dsa-fnd-010) | Computational problem solving and constraint translation | Core | Draft | Not started | — | — | — | [Unit note](units/problem-solving-foundations/DSA-FND-010-computational-problem-solving-and-constraint-translation/README.md) |
 | [DSA-FND-020](CURRICULUM.md#dsa-fnd-020) | Brute-force enumeration and bottleneck discovery | Core | Absent | Not started | — | — | — | — |
 | [DSA-FND-030](CURRICULUM.md#dsa-fnd-030) | Invariants, correctness, and termination | Core | Absent | Not started | — | — | — | — |
 | [DSA-FND-040](CURRICULUM.md#dsa-fnd-040) | Asymptotic notation and input-variable modeling | Core | Absent | Not started | — | — | — | — |
