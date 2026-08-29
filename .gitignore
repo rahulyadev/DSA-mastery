@@ -1,0 +1,51 @@
+# Python environments and caches
+.venv/
+venv/
+env/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.hypothesis/
+.coverage
+coverage.xml
+htmlcov/
+
+# Build and packaging output
+build/
+dist/
+*.egg-info/
+
+# Profiling, benchmarks, and generated output
+*.prof
+*.lprof
+.pyperf/
+benchmarks/output/
+
+# Editors and operating systems
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+
+# Secrets and local configuration
+.env
+.env.*
+*.pem
+*.key
+*.p12
+*.pfx
+secrets/
+credentials/
+tokens/
+
+# Chat exports, private notes, and transcripts
+transcripts/
+chat-exports/
+private/
+
+# Temporary files
+*.tmp
+*.bak
+*.swp
