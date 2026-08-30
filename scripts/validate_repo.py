@@ -1828,6 +1828,21 @@ def copy_repo_for_test(root: Path, *, include_generated: bool = False) -> tempfi
         destination = target / relative
         destination.parent.mkdir(parents=True, exist_ok=True)
         shutil.copy2(source_path, destination)
+    if not include_generated:
+        # Bootstrap fixtures exclude installed units. Normalize only their copied
+        # tracker rows, so live evidence links do not point into omitted folders.
+        # The source checkout and include_generated=True copies stay untouched.
+        progress = target / "PROGRESS.md"
+        if progress.is_file():
+            lines = progress.read_text(encoding="utf-8").splitlines()
+            for index, line in enumerate(lines):
+                cells = split_table_row(line)
+                if len(cells) == 9 and re.match(
+                    r"\[DSA-[A-Z]{3}-\d{3}\]\(CURRICULUM\.md#", cells[0]
+                ):
+                    cells[3:] = ["Absent", "Not started", "—", "—", "—", "—"]
+                    lines[index] = "| " + " | ".join(cells) + " |"
+            progress.write_text("\n".join(lines) + "\n", encoding="utf-8")
     return temp
 
 def update_progress_artifact_state(root: Path, unit_id: str, state: str) -> None:
@@ -2412,6 +2427,57 @@ def run_fixture_tests(root: Path) -> dict[str, object]:
 
     def record(name: str, expected: str, observed: str, detail: object | None = None) -> None:
         cases.append({"name": name, "status": "passed" if expected == observed else "failed", "expected_result": expected, "observed_result": observed, "detail": detail})
+
+    live_source_temp = copy_repo_for_test(root)
+    try:
+        live_source = Path(live_source_temp.name)
+        live_unit = create_complete_unit_fixture(live_source, unit)
+        progress = live_source / "PROGRESS.md"
+        lines = progress.read_text(encoding="utf-8").splitlines()
+        for index, line in enumerate(lines):
+            if line.startswith(f"| [{unit.unit_id}]"):
+                cells = split_table_row(line)
+                cells[4:8] = ["Practiced", "2026-08-30", "2026-08-31", "synthetic recall gap"]
+                cells[8] = f"[Synthetic evidence]({live_unit.relative_to(live_source).as_posix()}/README.md)"
+                lines[index] = "| " + " | ".join(cells) + " |"
+        progress.write_text("\n".join(lines) + "\n", encoding="utf-8")
+        source_hashes = {
+            path.relative_to(live_source).as_posix(): sha256_file(path)
+            for path in iter_repository_files(live_source, "live")
+        }
+        with copy_repo_for_test(live_source) as bootstrap_name, copy_repo_for_test(
+            live_source, include_generated=True
+        ) as preserved_name:
+            bootstrap_root, preserved_root = Path(bootstrap_name), Path(preserved_name)
+            bootstrap_report = validate_repository(bootstrap_root, run_external=False, profile="bootstrap")
+            preserved_report = validate_repository(preserved_root, run_external=False, profile="live")
+            preserved_hashes = {
+                path.relative_to(preserved_root).as_posix(): sha256_file(path)
+                for path in iter_repository_files(preserved_root, "live")
+            }
+            source_unchanged = all(
+                sha256_file(live_source / relative) == digest
+                for relative, digest in source_hashes.items()
+            )
+            generated_omitted = not (bootstrap_root / "units").exists()
+            live_copy_preserved = preserved_hashes == source_hashes
+            passed = (
+                not bootstrap_report.errors and not preserved_report.errors
+                and generated_omitted and source_unchanged and live_copy_preserved
+            )
+            record(
+                "bootstrap_fixture_from_live_tracker_preserves_source",
+                "passed", "passed" if passed else "failed",
+                {
+                    "bootstrap_errors": bootstrap_report.errors,
+                    "preserved_live_errors": preserved_report.errors,
+                    "generated_units_omitted": generated_omitted,
+                    "source_files_unchanged": source_unchanged,
+                    "live_copy_byte_preserved": live_copy_preserved,
+                },
+            )
+    finally:
+        live_source_temp.cleanup()
 
     fresh_temp = copy_repo_for_test(root)
     try:

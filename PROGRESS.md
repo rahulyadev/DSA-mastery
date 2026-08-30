@@ -39,7 +39,7 @@ Generated files and accepted submissions do not prove learning. Track artifacts,
 | [DSA-FND-020](CURRICULUM.md#dsa-fnd-020) | Brute-force enumeration and bottleneck discovery | Core | Draft | Not started | — | — | — | [Unit note](units/problem-solving-foundations/DSA-FND-020-brute-force-enumeration-and-bottleneck-discovery/README.md) |
 | [DSA-FND-030](CURRICULUM.md#dsa-fnd-030) | Invariants, correctness, and termination | Core | Draft | Not started | — | — | — | [Unit note](units/problem-solving-foundations/DSA-FND-030-invariants-correctness-and-termination/README.md) |
 | [DSA-FND-040](CURRICULUM.md#dsa-fnd-040) | Asymptotic notation and input-variable modeling | Core | Draft | Not started | — | — | — | [Unit note](units/problem-solving-foundations/DSA-FND-040-asymptotic-notation-and-input-variable-modeling/README.md) |
-| [DSA-FND-050](CURRICULUM.md#dsa-fnd-050) | Amortized, aggregate, output-sensitive, and query analysis | Core | Absent | Not started | — | — | — | — |
+| [DSA-FND-050](CURRICULUM.md#dsa-fnd-050) | Amortized, aggregate, output-sensitive, and query analysis | Core | Draft | Not started | — | — | — | [Unit note](units/problem-solving-foundations/DSA-FND-050-amortized-aggregate-output-sensitive-and-query-analysis/README.md) |
 | [DSA-FND-060](CURRICULUM.md#dsa-fnd-060) | Recursion, call stacks, and recursive complexity | Core | Absent | Not started | — | — | — | — |
 | [DSA-FND-070](CURRICULUM.md#dsa-fnd-070) | Interview mathematics: logarithms, sums, counting, and probability | Professional | Absent | Not started | — | — | — | — |
 | [DSA-FND-080](CURRICULUM.md#dsa-fnd-080) | Testing algorithms with examples, oracles, and properties | Core | Absent | Not started | — | — | — | — |
